@@ -8,7 +8,7 @@ WORKDIR /src
 #COPY ["src/DevOpsDemo.Web/DevOpsDemo.Web.csproj","DevOpsDemo.Web/"]
 #RUN dotnet restore "DevOpsDemo.Web/DevOpsDemo.Web.csproj"
 COPY . .
-WORKDIR /src/DevOpsDemo.Web
+WORKDIR /src/src/DevOpsDemo.Web
 RUN dotnet build "DevOpsDemo.Web.csproj" -c Release -o /app/build
 
 FROM build AS publish
