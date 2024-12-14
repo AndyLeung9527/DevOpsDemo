@@ -1,20 +1,11 @@
-FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
+FROM mcr.microsoft.com/dotnet/sdk:9.0
+WORKDIR /src
+COPY ./src .
+RUN dotnet publish DevOpsDemo.Web/DevOpsDemo.Web.csproj -c Release -o /publish
+FROM mcr.microsoft.com/dotnet/aspnet:9.0
+LABEL author=LWB
 WORKDIR /app
+COPY --from=0 /publish .
 EXPOSE 80
 EXPOSE 443
-
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
-WORKDIR /src
-#COPY ["src/DevOpsDemo.Web/DevOpsDemo.Web.csproj","DevOpsDemo.Web/"]
-#RUN dotnet restore "DevOpsDemo.Web/DevOpsDemo.Web.csproj"
-COPY . .
-WORKDIR /src/src/DevOpsDemo.Web
-RUN dotnet build "DevOpsDemo.Web.csproj" -c Release -o /app/build
-
-FROM build AS publish
-RUN dotnet publish "DevOpsDemo.Web.csproj" -c Release -o /app/publish
-
-FROM base AS final
-WORKDIR /app
-COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet","DevOpsDemo.Web.dll"]
