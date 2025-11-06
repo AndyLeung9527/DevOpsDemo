@@ -9,6 +9,8 @@ internal class Program
 
         app.MapGet("/", () => "Hello World!");
 
+        app.MapGet("/test", () => "Test code");
+
         app.Run();
     }
 }
