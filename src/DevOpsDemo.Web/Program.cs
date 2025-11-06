@@ -11,8 +11,6 @@ internal class Program
 
         app.MapGet("/test", () => "Test code");
 
-        write something wrong
-
         app.Run();
     }
 }
